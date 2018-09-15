@@ -16,24 +16,38 @@ private JFileChooser fileChooser;
 private FileSystemView fsv;
 
 Button browse;
-Label l[]=new Label[10];
+public static int no=10;	//Max number of URL in file
+Label l[]=new Label[no];
+Label status[]=new Label[no];
 	public void init() {
-		setLayout(new GridLayout(11,1));
+
+		setLayout(new GridLayout(no+2,2));
 		browse=new Button("Browse");
 		add(browse);
 		browse.addActionListener(this);
-			for(int i=0;i<10;i++)
+		add(new Label(""));
+		
+		Label x=new Label("URL",Label.CENTER);
+		Label y=new Label("Status",Label.CENTER);
+		
+		x.setFont(new Font("Times New Roman",Font.BOLD,25));
+		y.setFont(new Font("Times New Roman",Font.BOLD,25));
+		add(x);
+		add(y);
+			for(int i=0;i<no;i++)
 			{
-				
-				l[i]=new Label("URl");
+				l[i]=new Label("-",Label.CENTER);
+				l[i].setFont(new Font("SansSerif",Font.BOLD, 20));
 				add(l[i]);
+				status[i]=new Label("-",Label.CENTER);
+				status[i].setFont(new Font("SansSerif",Font.BOLD, 20));
+				add(status[i]);
 			}
 	}
 	
 public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == browse){
-			int arrlen = 10000;
-			byte[] infile = new byte[arrlen];
+			
 			Frame parent = new Frame();
 			FileDialog fd = new FileDialog(parent, "Please choose a file:",
 			    FileDialog.LOAD);
@@ -48,15 +62,21 @@ public void actionPerformed(ActionEvent e) {
 				int i=0;
 				try{
 			for( String line ;(line = br.readLine()) != null;i++ ) {
-				l[i].setFont(new Font("SansSerif", Font.BOLD, 18));
+				l[i].setText(line);
 				if(validator(line))
-					l[i].setText(line+"\t:: Up\n");
+				{
+					status[i].setText("UP");
+					status[i].setForeground(Color.GREEN);
+				}
 				else
-					l[i].setText(line+"\t:: Down\n");
+				{
+					status[i].setText("Down");
+					status[i].setForeground(Color.RED);
+				}
 			}
 				}
 				catch(Exception ex){
-					
+					l[0].setText("Check the type of file selected");
 				}
 				}
 			catch(FileNotFoundException ex)
