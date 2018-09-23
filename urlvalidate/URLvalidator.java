@@ -90,7 +90,7 @@ public void actionPerformed(ActionEvent e) {
 public boolean validator(String link){
 	boolean isAlive = true;
 try {
-  URL hp = new URL(link);
+  URL hp = new URL("http://"+link);
   URLConnection hpCon = hp.openConnection();
   hpCon.connect();
   
